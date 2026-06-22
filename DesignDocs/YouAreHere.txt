@@ -1,0 +1,98 @@
+#YouAreHere — Kerbal Data Centers (KDC)
+
+Topic:
+Overall project state & design lock-in checkpoint (post-rename)
+
+Current Status:
+The project formerly known as Kerbal Cloud Services (KCS) has been officially renamed to
+**Kerbal Data Centers (KDC)** to avoid confusion with the Kerbal Space Center (KSC).
+The rename is cosmetic only; all core design decisions remain intact and documented.
+
+All major mechanics are defined, bounded, and captured in the GitHub wiki.
+The project is in a stable, implementation-ready design state.
+
+---
+
+Core Systems (Locked at Concept Level):
+
+1) Compute Modules
+- Primary parts:
+  - MechMort ][ Core
+  - MechMort ][ Lite
+- Containerized, immersion-cooled orbital compute hardware
+- Significant mass, power draw, and heat output
+- Designed as long-lived infrastructure, not fragile parts
+- Visual identity: industrial, containerized, non-crewed
+
+2) Operational Modes
+- Commercial Mode:
+  - Generates Funds
+  - Default operating mode
+- Science Mode (late-game, via Part Upgrade):
+  - Generates Science Data (not Science points)
+- Modes are mutually exclusive
+- Switching modes requires recalibration
+
+3) Science Mode (Key Safeguards)
+- MechMort generates Science Data only
+- Science Data must be processed by a Mobile Processing Lab (MPL)
+- Each celestial body has a finite, planet-scoped Science Data Budget
+- Budget formula:
+  - ScienceDataBudget = 750 × BaseLoads × ScienceMultiplier(body)
+  - Default BaseLoads = 2
+- Additional MechMort modules increase extraction rate, not total science
+- Planetary exhaustion introduces diminishing returns
+- MPL remains required and relevant
+
+4) Calibration & Commissioning
+- New data centers require calibration before operation
+- Orbital calibration: completed orbits required
+- Landed calibration: sidereal days required
+- Configuration changes invalidate calibration
+- Calibration establishes baseline power, thermal, and comms behavior
+
+5) Reliability, Faults, and Maintenance
+- Custom KDC fault system (independent of EVA Repairs)
+- Event-driven faults, not continuous wear
+- Faults degrade revenue or data output, not vessels
+- MTBF exists as a reliability modifier, not a ticking counter
+  - MechMort ][ Core MTBF: 30,000 hours
+  - MechMort ][ Lite MTBF: 20,000 hours
+- Fault probability scales with stress (power, heat, comms, density)
+- Rare catastrophic events exist but never destroy the station
+- Repairs use stock Repair Kits via EVA
+  - Kerbals can carry up to 4 kits
+
+6) Revenue, Distance, and Delayed Payouts
+- Revenue is based on:
+  - Compute capacity
+  - Distance-based multiplier derived from smoothed distance to Kerbin
+  - Polar orbit bonus (+20%)
+  - Operational health
+  - Ownership factor
+- Distance is smoothed using an Exponential Moving Average (EMA)
+- The same smoothed distance is used to calculate payout delays
+- System is config-free and planet-pack agnostic
+
+7) Ownership & Contracts
+- KDC construction contracts provide upfront Funds
+- Contracts permanently reduce ownership (revenue share)
+- Ownership is applied at the vessel level
+- Ownership changes detected via Contract.onCompleted
+- Optional future concept: ownership buyout (explicitly out of scope for v1)
+
+8) Monitoring & UX
+- Space Center–level Operations Monitor app
+- Displays all KDC stations:
+  - Status
+  - Revenue or Science Data output
+  - Faults
+  - Location
+- One-click jump to vessel
+- Optional event cards for notable events
+
+9) Tech Tree Placement
+
+Stock Tech Tree:
+- MechMort ][ Lite: Advanced Electronics
+- MechMort ][ Core: Large Unmanned Systems / Experime]()

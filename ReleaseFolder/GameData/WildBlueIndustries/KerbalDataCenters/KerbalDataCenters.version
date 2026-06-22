@@ -1,0 +1,23 @@
+{
+    "NAME":"KerbalDataCenter",
+    "URL":"https://raw.githubusercontent.com/Angel-125/KerbalDataCenters/main/ReleaseFolder/GameData/WildBlueIndustries/KerbalDataCentesr/KerbalDataCenters.version",
+    "DOWNLOAD":"https://github.com/Angel-125/KerbalDataCenters/releases",
+    "GITHUB":
+    {
+        "USERNAME":"Angel-125",
+        "REPOSITORY":"KerbalDataCenters",
+        "ALLOW_PRE_RELEASE":false
+    },
+    "VERSION":
+    {
+	"MAJOR":1,
+	"MINOR":0,
+	"PATCH":0
+    },
+    "KSP_VERSION_MIN":
+    {
+        "MAJOR":1,
+        "MINOR":12,
+        "PATCH":5
+    }
+}

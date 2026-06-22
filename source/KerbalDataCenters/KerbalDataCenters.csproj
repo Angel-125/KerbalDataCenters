@@ -10,6 +10,7 @@
     <RootNamespace>KerbalDataCenters</RootNamespace>
     <AssemblyName>KerbalDataCenters</AssemblyName>
     <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
+    <KdcDeployDirectory Condition=" '$(KdcDeployDirectory)' == '' ">C:\KSPDev\GameData\WildBlueIndustries\KerbalDataCenters\Plugins</KdcDeployDirectory>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
@@ -116,12 +117,17 @@
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>xcopy /Y "$(TargetPath)" "C:\KSPDev\GameData\WildBlueIndustries\KerbalDataCenters\Plugins\"﻿
-xcopy /Y "$(TargetDir)$(TargetName).pdb" "C:\KSPDev\GameData\WildBlueIndustries\KerbalDataCenters\Plugins\"
-xcopy /Y "$(TargetDir)$(TargetName).dll" "C:\KSPDev\GameData\WildBlueIndustries\KerbalDataCenters\Plugins\"
-
-Powershell.exe -ExecutionPolicy Unrestricted -file "$(TargetDir)xmldoc2md.ps1" -xml "$(TargetDir)$(TargetName).xml" -xsl "$(TargetDir)xmldoc2md.xsl" -output "$(TargetDir)API.md"
-$(TargetDir)MarkdownSeparator.exe $(TargetDir)API.md Wiki</PostBuildEvent>
-  </PropertyGroup>
+  <Target Name="DeployToKsp" AfterTargets="Build">
+    <MakeDir Directories="$(KdcDeployDirectory)" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(KdcDeployDirectory)" />
+    <Copy SourceFiles="$(TargetDir)$(TargetName).pdb"
+          DestinationFolder="$(KdcDeployDirectory)"
+          Condition="Exists('$(TargetDir)$(TargetName).pdb')" />
+  </Target>
+  <Target Name="GenerateApiDocumentation"
+          AfterTargets="Build"
+          Condition="Exists('$(TargetDir)$(TargetName).xml')">
+    <Exec Command="Powershell.exe -NoProfile -ExecutionPolicy Bypass -File &quot;$(TargetDir)xmldoc2md.ps1&quot; -xml &quot;$(TargetDir)$(TargetName).xml&quot; -xsl &quot;$(TargetDir)xmldoc2md.xsl&quot; -output &quot;$(TargetDir)API.md&quot;" />
+    <Exec Command="&quot;$(TargetDir)MarkdownSeparator.exe&quot; &quot;$(TargetDir)API.md&quot; &quot;$(TargetDir)Wiki&quot;" />
+  </Target>
 </Project>
