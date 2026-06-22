@@ -55,3 +55,7 @@ Temporary Items
 /Other/
 /Sounds/
 /Notes/
+
+# Visual Studio build outputs
+bin/
+obj/
